@@ -53,7 +53,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--font);font-size
 select,input[type=date],input[type=text],input[type=number]{background:var(--bg3);border:1px solid var(--border2);color:#0f1220;padding:6px 9px;border-radius:5px;font-size:12px;font-family:var(--font);outline:none}
 select:focus,input:focus{border-color:var(--accent)}
 .topbar-r label{font-size:13px;color:var(--t2);font-weight:600}
-#accountSelect{font-size:15px;font-weight:600;padding:9px 32px 9px 14px;border-radius:7px;min-width:170px;background-color:#fff}
+#accountSelect{font-size:13px;font-weight:400;padding:7px 30px 7px 12px;border-radius:7px;min-width:150px;background-color:#fff}
 .frange{font-size:11px;color:var(--t3);margin-left:auto}
 .frange b{color:var(--t2);font-weight:600}
 
@@ -65,16 +65,16 @@ select:focus,input:focus{border-color:var(--accent)}
 
 /* KPI CARDS */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.kpi{border-radius:10px;padding:15px 16px;border:1px solid transparent;transition:transform .15s}
+.kpi{border-radius:10px;padding:15px 16px;border:1px solid transparent;transition:transform .15s;text-align:center}
 .kpi:hover{transform:translateY(-2px)}
-.kpi.c-purple{background:rgba(124,58,237,.13);border-color:rgba(124,58,237,.32)}
-.kpi.c-green{background:rgba(26,138,80,.14);border-color:rgba(26,138,80,.34)}
-.kpi.c-blue{background:rgba(37,99,235,.12);border-color:rgba(37,99,235,.32)}
-.kpi.c-teal{background:rgba(13,148,136,.13);border-color:rgba(13,148,136,.32)}
-.kpi.c-red{background:rgba(204,51,51,.12);border-color:rgba(204,51,51,.3)}
-.kpi.c-yellow{background:rgba(196,122,0,.14);border-color:rgba(196,122,0,.34)}
-.kpi.c-gold{background:rgba(184,146,46,.16);border-color:rgba(184,146,46,.4)}
-.kpi.c-slate{background:rgba(96,112,160,.14);border-color:rgba(96,112,160,.32)}
+.kpi.c-purple{background:#d8c8f0;border-color:#c9b6ea}
+.kpi.c-green{background:#b8e3c8;border-color:#a6d9ba}
+.kpi.c-blue{background:#bdd4f7;border-color:#abc8f2}
+.kpi.c-teal{background:#bce7eb;border-color:#a9dee4}
+.kpi.c-red{background:#f2c4c1;border-color:#ecb3af}
+.kpi.c-yellow{background:#f2e6ae;border-color:#e6d58f}
+.kpi.c-gold{background:#ecdca9;border-color:#dfcb8f}
+.kpi.c-slate{background:#cbd4ea;border-color:#bac5e0}
 .kpi-lbl{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;font-weight:600}
 .kpi-val{font-size:26px;font-weight:800;color:#0f1220;line-height:1;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
 .kpi-sub{font-size:10.5px;color:var(--t3);margin-top:6px}
@@ -118,6 +118,16 @@ select:focus,input:focus{border-color:var(--accent)}
 .btbl.piezas-tbl th:nth-child(5),.btbl.piezas-tbl td:nth-child(5){width:120px}
 .btbl.piezas-tbl th:nth-child(6),.btbl.piezas-tbl td:nth-child(6){width:130px}
 .btbl.piezas-tbl td:nth-child(4){white-space:normal}
+.rec-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 16px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.rec-tlabel{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.rec-count{margin-left:auto;font-size:11px;color:var(--t3)}
+.rec-collapsed{padding:16px;color:var(--t3);font-size:12px;text-align:center}
+.enlace-pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.5px;border:1px solid var(--accent);color:var(--accent);border-radius:4px;padding:1px 5px;text-decoration:none;vertical-align:middle}
+.enlace-pill:hover{background:var(--accent);color:#0f1220}
+.acc-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.acc-row:last-child{border-bottom:none}
+.acc-name{flex:0 1 320px;min-width:0}
+.acc-count{margin-left:auto;font-size:11px;color:var(--t3)}
 
 /* PILLS */
 .pill{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:600;white-space:nowrap}
@@ -187,6 +197,7 @@ select:focus,input:focus{border-color:var(--accent)}
     <div class="fg"><label>Cuenta</label>
       <select id="accountSelect"></select>
     </div>
+    <button class="nav-btn" data-v="config">Configuración</button>
   </div>
 </header>
 
@@ -228,7 +239,7 @@ select:focus,input:focus{border-color:var(--accent)}
   </div>
 
   <div class="card">
-    <div class="card-head"><span class="card-title">Top performers<span>Ordenado por visualizaciones · outlier = supera media + 1,25 σ</span></span></div>
+    <div class="card-head"><span class="card-title">Top performers</span></div>
     <div class="card-body flush"><div class="tbl-wrap" id="topTable"></div></div>
   </div>
 
@@ -287,9 +298,12 @@ select:focus,input:focus{border-color:var(--accent)}
   <div class="card">
     <div class="card-head">
       <span class="card-title">Registros guardados</span>
-      <div class="mtoggle" id="recTabs">
-        <button data-rt="piezas" class="act">Piezas</button>
-        <button data-rt="metricas">Métricas</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="mtoggle" id="recTabs">
+          <button data-rt="piezas" class="act">Piezas</button>
+          <button data-rt="metricas">Métricas</button>
+        </div>
+        <button class="btn btn-ghost" id="recToggle">Abrir</button>
       </div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap" id="recordsTable"></div></div>
@@ -297,13 +311,42 @@ select:focus,input:focus{border-color:var(--accent)}
 
 </section>
 
+<!-- ════════ CONFIGURACIÓN ════════ -->
+<section class="view" id="v-config">
+  <div class="card" id="configLock">
+    <div class="card-head"><span class="card-title">Configuración</span></div>
+    <div class="card-body">
+      <div class="field" style="max-width:300px">
+        <label>Contraseña</label>
+        <input type="password" id="configPass" placeholder="••••••••">
+      </div>
+      <div class="btn-row"><button class="btn btn-primary" id="configEnter">Entrar</button></div>
+      <div class="hint">Zona protegida. Introduce la contraseña para gestionar las cuentas.</div>
+    </div>
+  </div>
+  <div class="card" id="configPanel" style="display:none">
+    <div class="card-head"><span class="card-title">Cuentas</span><button class="btn btn-ghost" id="configLockBtn">Bloquear</button></div>
+    <div class="card-body">
+      <div id="accountsList"></div>
+      <div class="fgrid" style="margin-top:16px">
+        <div class="field"><label>Añadir cuenta nueva</label><input id="newAccount" placeholder="Nombre de la cuenta"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="addAccount">Añadir cuenta</button>
+        <span class="hint">Renombrar una cuenta actualiza también sus registros. Si el nombre contiene "YouTube", se ocultan contactos y conversaciones en métricas.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <script>
 "use strict";
 
 /* ════════════ CONSTANTES ════════════ */
-const ACCOUNTS = ['Dollardorado','Dollar.lathos','Lathos.es','YouTube'];
+let ACCOUNTS = ['Dollardorado','Dollar.lathos','Lathos.es','YouTube'];
 const YT = 'YouTube';
 const YT_HIDDEN = ['contactosNuevos','conversacionesAbiertas','contactosTotalesMes'];
+function esYouTube(c){ return /youtube/i.test(String(c||'')); }
 const TIPOS = ['Reel','Post','Carrusel','Story'];
 const TIPO_COLOR = {Reel:'#b8922e',Post:'#2563eb',Carrusel:'#0d9488',Story:'#7c3aed'};
 const fmt = new Intl.NumberFormat('es-ES');
@@ -313,7 +356,7 @@ const ALL = '__all__';
 const state = {
   piezas:[], metricas:[], vista:'panel', cuenta:ALL,
   periodo:'30', customDesde:null, customHasta:null,
-  repartoMetric:'piezas', recordsTab:'piezas', editPieza:null, editMetrica:null
+  repartoMetric:'piezas', recordsTab:'piezas', editPieza:null, editMetrica:null, configUnlocked:false, recOpen:false
 };
 
 /* ════════════ ALMACENAMIENTO (sin localStorage) ════════════ */
@@ -344,10 +387,12 @@ const Store = (function(){
   return { init, get, set, backend:()=>backend };
 })();
 async function persist(){ await Store.set('piezas',JSON.stringify(state.piezas)); await Store.set('metricas',JSON.stringify(state.metricas)); }
+async function persistAccounts(){ await Store.set('cuentas', JSON.stringify(ACCOUNTS)); }
 async function loadAll(){
-  const p=await Store.get('piezas'), m=await Store.get('metricas');
+  const p=await Store.get('piezas'), m=await Store.get('metricas'), c=await Store.get('cuentas');
   try{ state.piezas=p?JSON.parse(p):[]; }catch(e){ state.piezas=[]; }
   try{ state.metricas=m?JSON.parse(m):[]; }catch(e){ state.metricas=[]; }
+  try{ if(c){ const arr=JSON.parse(c); if(Array.isArray(arr)&&arr.length) ACCOUNTS=arr; } }catch(e){}
 }
 
 /* ════════════ FECHAS ════════════ */
@@ -400,7 +445,7 @@ function tituloCell(p){
   const notaAttr=p.nota?` title="${esc(p.nota)}"`:'';
   const mark=p.nota?` <span class="ico" title="${esc(p.nota)}">✎</span>`:'';
   const url=safeUrl(p.enlace);
-  const link=url?` <a class="lnk" href="${esc(url)}" target="_blank" rel="noopener" title="Abrir enlace">↗</a>`:'';
+  const link=url?` <a class="lnk enlace-pill" href="${esc(url)}" target="_blank" rel="noopener" title="Abrir enlace">ENLACE ↗</a>`:'';
   return `<span${notaAttr}>${t}</span>${mark}${link}`;
 }
 
@@ -410,7 +455,7 @@ function render(){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('act'));
   document.querySelectorAll('.nav-btn').forEach(t=>t.classList.toggle('act',t.dataset.v===state.vista));
   document.getElementById('v-'+state.vista).classList.add('act');
-  if(state.vista==='panel') renderPanel(); else renderRecords();
+  if(state.vista==='panel') renderPanel(); else if(state.vista==='cargar') renderRecords(); else renderConfig();
 }
 
 function renderPanel(){
@@ -532,11 +577,14 @@ function renderDetalle(piezas){
 function renderRecords(){
   const cont=document.getElementById('recordsTable');
   document.querySelectorAll('#recTabs button').forEach(t=>t.classList.toggle('act',t.dataset.rt===state.recordsTab));
+  const toggle=document.getElementById('recToggle');
   const acc=state.cuenta===ALL?null:state.cuenta;
   const suf=acc?` · ${acc}`:'';
   if(state.recordsTab==='piezas'){
     const list=(acc?state.piezas.filter(p=>p.cuenta===acc):state.piezas).slice().sort((a,b)=>a.fecha<b.fecha?1:-1);
-    if(!list.length){ cont.innerHTML=emptyMsg('Sin piezas guardadas'+suf, acc?'No hay piezas de esta cuenta.':'Usa el formulario «Añadir pieza» para empezar.'); return; }
+    if(toggle) toggle.textContent=state.recOpen?'Cerrar':`Abrir (${list.length})`;
+    if(!state.recOpen){ cont.innerHTML=`<div class="rec-collapsed">${list.length} pieza(s) guardada(s)${suf} · pulsa «Abrir» para ver la tabla</div>`; return; }
+    if(!list.length){ cont.innerHTML=emptyMsg('Sin piezas guardadas'+suf,'Usa el formulario «Añadir pieza» para empezar.'); return; }
     cont.innerHTML=`<table class="btbl center"><thead><tr>
       <th>Fecha</th><th>Cuenta</th><th>Tipo</th><th>Título</th><th class="r">Views</th><th class="r">Impresiones</th><th></th></tr></thead><tbody>${
       list.map(p=>`<tr>
@@ -549,7 +597,9 @@ function renderRecords(){
         <td class="r"><button class="del-btn edit-btn" data-edit-pieza="${p.id}" title="Editar">✎</button> <button class="del-btn" data-del-pieza="${p.id}" title="Borrar">×</button></td></tr>`).join('')}</tbody></table>`;
   } else {
     const list=(acc?state.metricas.filter(m=>m.cuenta===acc):state.metricas).slice().sort((a,b)=>a.fecha<b.fecha?1:-1);
-    if(!list.length){ cont.innerHTML=emptyMsg('Sin métricas guardadas'+suf, acc?'No hay métricas de esta cuenta.':'Usa el formulario «Añadir métrica» para empezar.'); return; }
+    if(toggle) toggle.textContent=state.recOpen?'Cerrar':`Abrir (${list.length})`;
+    if(!state.recOpen){ cont.innerHTML=`<div class="rec-collapsed">${list.length} registro(s) guardado(s)${suf} · pulsa «Abrir» para ver la tabla</div>`; return; }
+    if(!list.length){ cont.innerHTML=emptyMsg('Sin métricas guardadas'+suf,'Usa el formulario «Añadir métrica» para empezar.'); return; }
     cont.innerHTML=`<table class="btbl center"><thead><tr>
       <th>Fecha</th><th>Cuenta</th><th class="r">Seg. nuevos</th><th class="r">Conv. abiertas</th><th class="r">Cont. nuevos</th><th class="r">Cont. mes</th><th class="r">Views Stories</th><th></th></tr></thead><tbody>${
       list.map(m=>`<tr>
@@ -620,7 +670,7 @@ async function loadDemo(){
         let base=600+Math.random()*4200; if(tipo==='Reel')base*=1.6; if(Math.random()<0.07)base*=(4+Math.random()*4);
         const views=Math.round(base), imps=Math.round(views*(1.15+Math.random()*0.7)), l=T[tipo];
         piezas.push({id:newId(),titulo:l[Math.floor(Math.random()*l.length)],cuenta:acc,tipo,fecha,visualizaciones:views,impresiones:imps}); } }); }
-  ACCOUNTS.forEach((acc,ai)=>{ let cm=40+ai*25; const esYT=acc===YT;
+  ACCOUNTS.forEach((acc,ai)=>{ let cm=40+ai*25; const esYT=esYouTube(acc);
     for(let off=90;off>=0;off-=3){ const fecha=toISO(addDays(h,-Math.min(off,90))); cm+=Math.floor(Math.random()*18);
       if(parseISO(fecha).getDate()<=3) cm=30+Math.floor(Math.random()*20);
       metricas.push({id:newId(),cuenta:acc,fecha,seguidoresNuevos:8+Math.floor(Math.random()*55),conversacionesAbiertas:esYT?0:4+Math.floor(Math.random()*36),contactosNuevos:esYT?0:Math.floor(Math.random()*11),contactosTotalesMes:esYT?0:cm,visualizacionesStories:300+Math.floor(Math.random()*5200)}); }
@@ -651,7 +701,7 @@ async function addMetrica(){
   const cuenta=document.getElementById('m_cuenta').value, fecha=document.getElementById('m_fecha').value;
   if(!fecha){ toast('Falta la fecha','err'); return; }
   const gv=id=>Math.max(0,parseInt(document.getElementById(id).value,10)||0);
-  const esYT=cuenta===YT;
+  const esYT=esYouTube(cuenta);
   const data={cuenta,fecha,seguidoresNuevos:gv('m_seg'),conversacionesAbiertas:esYT?0:gv('m_conv'),contactosNuevos:esYT?0:gv('m_conNuevos'),contactosTotalesMes:esYT?0:gv('m_conMes'),visualizacionesStories:gv('m_stories')};
   const editing=!!state.editMetrica;
   if(editing){ const m=state.metricas.find(x=>x.id===state.editMetrica); if(m) Object.assign(m,data); exitEditMetrica(); }
@@ -697,15 +747,80 @@ function cancelEditMetrica(){ ['m_seg','m_conv','m_conNuevos','m_conMes','m_stor
 
 /* ════════════ SELECTS ════════════ */
 function fillSelects(){
-  document.getElementById('accountSelect').innerHTML=`<option value="${ALL}">Todas</option>`+ACCOUNTS.map(a=>`<option value="${a}">${a}</option>`).join('');
-  [document.getElementById('f_cuenta'),document.getElementById('m_cuenta')].forEach(s=>{ s.innerHTML=ACCOUNTS.map(a=>`<option value="${a}">${a}</option>`).join(''); });
+  refreshAccountSelects();
   document.getElementById('f_tipo').innerHTML=TIPOS.map(t=>`<option value="${t}">${t}</option>`).join('');
   const today=toISO(hoy()); document.getElementById('f_fecha').value=today; document.getElementById('m_fecha').value=today;
 }
+function refreshAccountSelects(){
+  const opts=ACCOUNTS.map(a=>`<option value="${esc(a)}">${esc(a)}</option>`).join('');
+  const accSel=document.getElementById('accountSelect');
+  accSel.innerHTML=`<option value="${ALL}">Todas</option>`+opts;
+  accSel.value=(state.cuenta===ALL||ACCOUNTS.includes(state.cuenta))?state.cuenta:ALL; state.cuenta=accSel.value;
+  ['f_cuenta','m_cuenta'].forEach(id=>{ const s=document.getElementById(id); const cv=s.value; s.innerHTML=opts; s.value=ACCOUNTS.includes(cv)?cv:ACCOUNTS[0]; });
+}
 function updateMetricForm(){
-  const yt=document.getElementById('m_cuenta').value===YT;
+  const yt=esYouTube(document.getElementById('m_cuenta').value);
   ['fld_conNuevos','fld_conv','fld_conMes'].forEach(id=>{ document.getElementById(id).style.display=yt?'none':''; });
 }
+
+/* ════════════ CONFIGURACIÓN ════════════ */
+function renderConfig(){
+  document.getElementById('configLock').style.display=state.configUnlocked?'none':'';
+  document.getElementById('configPanel').style.display=state.configUnlocked?'':'none';
+  if(state.configUnlocked) renderAccounts();
+}
+function renderAccounts(){
+  const cont=document.getElementById('accountsList');
+  cont.innerHTML=ACCOUNTS.map((a,i)=>{
+    const count=state.piezas.filter(p=>p.cuenta===a).length+state.metricas.filter(m=>m.cuenta===a).length;
+    return `<div class="acc-row">
+      <input class="acc-name" data-i="${i}" value="${esc(a)}">
+      <button class="btn btn-ghost acc-save" data-i="${i}">Guardar</button>
+      <button class="del-btn acc-del" data-acc="${esc(a)}" title="${count?'Tiene registros: no se puede borrar':'Eliminar cuenta'}"${count?' disabled style="opacity:.4;cursor:not-allowed"':''}>×</button>
+      <span class="acc-count">${count} registro(s)</span>
+    </div>`;
+  }).join('');
+}
+async function renameAccount(i){
+  const input=document.querySelector('.acc-name[data-i="'+i+'"]'); if(!input) return;
+  const nuevo=input.value.trim(), viejo=ACCOUNTS[i];
+  if(!nuevo){ toast('El nombre no puede estar vacío','err'); return; }
+  if(nuevo===viejo){ toast('Sin cambios','ok'); return; }
+  if(ACCOUNTS.some((a,j)=>j!==i && a.toLowerCase()===nuevo.toLowerCase())){ toast('Ya existe una cuenta con ese nombre','err'); return; }
+  ACCOUNTS[i]=nuevo;
+  state.piezas.forEach(p=>{ if(p.cuenta===viejo) p.cuenta=nuevo; });
+  state.metricas.forEach(m=>{ if(m.cuenta===viejo) m.cuenta=nuevo; });
+  if(state.cuenta===viejo) state.cuenta=nuevo;
+  await persistAccounts(); await persist();
+  refreshAccountSelects(); updateMetricForm(); renderAccounts(); toast('Cuenta renombrada','ok');
+}
+async function addAccount(){
+  const input=document.getElementById('newAccount'), nombre=input.value.trim();
+  if(!nombre){ toast('Escribe un nombre','err'); return; }
+  if(ACCOUNTS.some(a=>a.toLowerCase()===nombre.toLowerCase())){ toast('Esa cuenta ya existe','err'); return; }
+  ACCOUNTS.push(nombre); input.value='';
+  await persistAccounts(); refreshAccountSelects(); renderAccounts(); toast('Cuenta añadida','ok');
+}
+async function deleteAccount(nombre){
+  const count=state.piezas.filter(p=>p.cuenta===nombre).length+state.metricas.filter(m=>m.cuenta===nombre).length;
+  if(count>0){ toast('No se puede borrar: tiene registros','err'); return; }
+  if(ACCOUNTS.length<=1){ toast('Debe quedar al menos una cuenta','err'); return; }
+  if(!confirm('¿Eliminar la cuenta "'+nombre+'"?')) return;
+  ACCOUNTS=ACCOUNTS.filter(a=>a!==nombre);
+  if(state.cuenta===nombre) state.cuenta=ALL;
+  await persistAccounts(); refreshAccountSelects(); renderAccounts(); toast('Cuenta eliminada','ok');
+}
+
+/* ════════════ PERIODO (compartido Panel + Registros) ════════════ */
+function syncPeriodoUI(){
+  document.querySelectorAll('#ptabs .ptab').forEach(c=>c.classList.toggle('act',c.dataset.p===state.periodo));
+  const show=state.periodo==='custom';
+  const cd=document.getElementById('customDates'); if(cd) cd.style.display=show?'flex':'none';
+  if(state.customDesde){ const a=document.getElementById('cDesde'); if(a)a.value=state.customDesde; }
+  if(state.customHasta){ const a=document.getElementById('cHasta'); if(a)a.value=state.customHasta; }
+}
+function setPeriodo(p){ state.periodo=p; syncPeriodoUI(); if(state.vista==='panel') renderPanel(); else renderRecords(); }
+function setCustom(desde,hasta){ if(desde!=null) state.customDesde=desde; if(hasta!=null) state.customHasta=hasta; syncPeriodoUI(); if(state.vista==='panel') renderPanel(); else renderRecords(); }
 
 /* ════════════ EVENTOS ════════════ */
 function wire(){
@@ -719,11 +834,10 @@ function wire(){
     }
     if(state.vista==='panel') renderPanel(); else renderRecords();
   });
-  document.getElementById('ptabs').addEventListener('click',e=>{ const b=e.target.closest('.ptab'); if(!b)return;
-    state.periodo=b.dataset.p; document.querySelectorAll('#ptabs .ptab').forEach(c=>c.classList.toggle('act',c===b));
-    document.getElementById('customDates').style.display=state.periodo==='custom'?'flex':'none'; renderPanel(); });
-  document.getElementById('cDesde').addEventListener('change',e=>{ state.customDesde=e.target.value; if(state.periodo==='custom') renderPanel(); });
-  document.getElementById('cHasta').addEventListener('change',e=>{ state.customHasta=e.target.value; if(state.periodo==='custom') renderPanel(); });
+  document.getElementById('ptabs').addEventListener('click',e=>{ const b=e.target.closest('.ptab'); if(b) setPeriodo(b.dataset.p); });
+  document.getElementById('cDesde').addEventListener('change',e=>setCustom(e.target.value,null));
+  document.getElementById('cHasta').addEventListener('change',e=>setCustom(null,e.target.value));
+  document.getElementById('recToggle').addEventListener('click',()=>{ state.recOpen=!state.recOpen; renderRecords(); });
   document.getElementById('repartoToggle').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; state.repartoMetric=b.dataset.m; renderPanel(); });
   document.getElementById('addPieza').addEventListener('click',addPieza);
   document.getElementById('addMetrica').addEventListener('click',addMetrica);
@@ -739,12 +853,25 @@ function wire(){
   document.getElementById('cancelPieza').addEventListener('click',cancelEditPieza);
   document.getElementById('cancelMetrica').addEventListener('click',cancelEditMetrica);
   document.getElementById('m_cuenta').addEventListener('change',updateMetricForm);
+  document.getElementById('configEnter').addEventListener('click',()=>{
+    if(document.getElementById('configPass').value==='39366915'){ state.configUnlocked=true; document.getElementById('configPass').value=''; renderConfig(); }
+    else toast('Contraseña incorrecta','err');
+  });
+  document.getElementById('configPass').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('configEnter').click(); });
+  document.getElementById('configLockBtn').addEventListener('click',()=>{ state.configUnlocked=false; renderConfig(); });
+  document.getElementById('addAccount').addEventListener('click',addAccount);
+  document.getElementById('newAccount').addEventListener('keydown',e=>{ if(e.key==='Enter') addAccount(); });
+  document.getElementById('accountsList').addEventListener('click',e=>{
+    const s=e.target.closest('.acc-save'), d=e.target.closest('.acc-del');
+    if(s) renameAccount(Number(s.dataset.i));
+    if(d && !d.disabled) deleteAccount(d.dataset.acc);
+  });
 }
 
 /* ════════════ INIT ════════════ */
 (async function init(){
   if(window.Chart){ Chart.defaults.color='#2a3050'; Chart.defaults.borderColor='#e4e6ef'; Chart.defaults.font.family="'Inter',system-ui,sans-serif"; Chart.defaults.font.size=11; }
-  fillSelects(); wire(); updateMetricForm();
+  fillSelects(); wire(); updateMetricForm(); syncPeriodoUI();
   const mode=await Store.init(); await loadAll();
   const note=document.getElementById('storeNote');
   if(note){
